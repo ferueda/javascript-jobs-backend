@@ -1,0 +1,6 @@
+GET http://localhost:3001/jobs/title
+Content-Type: application/json
+
+{
+  "job_title": "Full Stack Developer"
+}

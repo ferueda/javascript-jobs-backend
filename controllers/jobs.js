@@ -16,9 +16,25 @@ jobsRouter.post('/', async (req, res, next) => {
 
 jobsRouter.get('/', async (req, res, next) => {
   try {
-    const jobs = await Job.find({});
-    console.log(jobs.length);
-    res.json(jobs.map((job) => job.toJSON()));
+    let { skip = 0, limit = 10, city } = req.query;
+
+    skip = isNaN(skip) ? 0 : Number(skip);
+    limit = isNaN(limit) ? 10 : Number(limit);
+    limit = limit > 50 ? 50 : limit;
+
+    const queryParams = city ? { query_city: city } : {};
+
+    const [totalRows, jobs] = await Promise.all([
+      Job.countDocuments(queryParams),
+      Job.find(queryParams).sort({ timestamp: -1 }).skip(skip).limit(limit),
+    ]);
+
+    const remainingRows = totalRows - (skip + limit);
+
+    res.json({
+      pagination: { totalRows, skip, limit, remainingRows },
+      jobs: jobs.map((job) => job.toJSON()),
+    });
   } catch (e) {
     next(e);
   }
@@ -27,21 +43,6 @@ jobsRouter.get('/', async (req, res, next) => {
 jobsRouter.get('/:id', async (req, res, next) => {
   try {
     const job = await Job.find({ indeed_id: req.params.id });
-
-    if (job.length) {
-      res.json(job.toJSON());
-    } else {
-      res.status(404).end();
-    }
-  } catch (e) {
-    next(e);
-  }
-});
-
-jobsRouter.get('/title', async (req, res, next) => {
-  try {
-    console.log(req.body);
-    const job = await Job.find({ job_title: req.body });
 
     if (job.length) {
       res.json(job.toJSON());

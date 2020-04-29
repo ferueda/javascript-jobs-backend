@@ -1,1 +1,1 @@
-GET http://localhost:3001/jobs
+GET http://localhost:3001/jobs/s?skip=0&limit=10&city=melbourne

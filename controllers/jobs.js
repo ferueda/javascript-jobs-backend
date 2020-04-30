@@ -16,7 +16,7 @@ jobsRouter.post('/', async (req, res, next) => {
 
 jobsRouter.get('/', async (req, res, next) => {
   try {
-    let { skip = 0, limit = 10, city } = req.query;
+    let { skip = 0, limit = 20, city } = req.query;
 
     skip = isNaN(skip) ? 0 : Number(skip);
     limit = isNaN(limit) ? 10 : Number(limit);

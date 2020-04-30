@@ -27,7 +27,7 @@ app.use(middleware.requestLogger);
 
 app.use('/jobs', jobsRouter);
 
-// app.use(middleware.unknownEndpoint);
-// app.use(middleware.errorHandler);
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;

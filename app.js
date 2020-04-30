@@ -6,6 +6,7 @@ const jobsRouter = require('./controllers/jobs');
 const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
 const mongoose = require('mongoose');
+const fetch = require('node-fetch');
 
 logger.info('connecting to ', config.MONGODB_URI);
 
@@ -29,5 +30,9 @@ app.use('/jobs', jobsRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
+
+setInterval(() => {
+  fetch('https://boiling-taiga-70590.herokuapp.com/api/udemy');
+}, 1000 * 60 * 27);
 
 module.exports = app;

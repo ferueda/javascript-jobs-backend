@@ -32,7 +32,7 @@ app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 setInterval(() => {
-  fetch('https://boiling-taiga-70590.herokuapp.com/api/udemy');
+  fetch('https://au-js-jobs.herokuapp.com/jobs');
 }, 1000 * 60 * 27);
 
 module.exports = app;

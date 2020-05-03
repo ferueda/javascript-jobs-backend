@@ -36,7 +36,7 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  indeed_id: {
+  portal_id: {
     type: String,
     required: true,
     unique: true,

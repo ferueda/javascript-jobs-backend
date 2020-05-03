@@ -42,7 +42,7 @@ jobsRouter.get('/', async (req, res, next) => {
 
 jobsRouter.get('/:id', async (req, res, next) => {
   try {
-    const job = await Job.find({ indeed_id: req.params.id });
+    const job = await Job.find({ portal_id: req.params.id });
 
     if (job.length) {
       res.json(job.toJSON());

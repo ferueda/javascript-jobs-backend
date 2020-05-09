@@ -45,6 +45,8 @@ const jobSchema = new mongoose.Schema({
   tags: Array,
 });
 
+jobSchema.index({ job_title: 'text', content_text: 'text' });
+
 jobSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();

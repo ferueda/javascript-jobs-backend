@@ -1,18 +1,31 @@
-const generateQueryParams = (city, tags, q) => {
+const generateQueryParams = (city, queries) => {
   let queryParams = {
     query_city: city,
   };
 
-  if (tags) {
-    const tagsArr = tags.split(' ').map((tag) => tag.replace('-', ' '));
-    queryParams = {
-      ...queryParams,
-      tags: { $all: [...tagsArr] },
-    };
+  if (queries) {
+    const filtersRegex = /angular|react|front end|back end|javascript|vue|typescript|node/gi;
+
+    const tagsFilter = queries.match(filtersRegex);
+
+    if (tagsFilter) {
+      queryParams = {
+        ...queryParams,
+        tags: { $all: [...tagsFilter] },
+      };
+    }
+
+    const searchFilter = queries.replace(filtersRegex, '').trim();
+
+    if (searchFilter) {
+      queryParams = {
+        ...queryParams,
+        $text: { $search: searchFilter },
+      };
+    }
   }
 
-  if (q) {
-  }
+  console.log(queryParams);
 
   return queryParams;
 };

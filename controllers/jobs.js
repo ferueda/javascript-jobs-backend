@@ -17,13 +17,13 @@ jobsRouter.post('/', async (req, res, next) => {
 
 jobsRouter.get('/', async (req, res, next) => {
   try {
-    let { skip = 0, limit = 20, city, tags } = req.query;
+    let { skip = 0, limit = 20, city, q } = req.query;
 
     skip = isNaN(skip) ? 0 : Number(skip);
     limit = isNaN(limit) ? 10 : Number(limit);
     limit = limit > 50 ? 50 : limit;
 
-    const queryParams = generateQueryParams(city, tags);
+    const queryParams = generateQueryParams(city, q);
 
     const [totalRows, jobs] = await Promise.all([
       Job.countDocuments(queryParams),

@@ -1,5 +1,6 @@
 const jobsRouter = require('express').Router();
 const Job = require('../model/job');
+const { generateQueryParams } = require('../utils/helpers');
 
 jobsRouter.post('/', async (req, res, next) => {
   const job = new Job({
@@ -22,13 +23,7 @@ jobsRouter.get('/', async (req, res, next) => {
     limit = isNaN(limit) ? 10 : Number(limit);
     limit = limit > 50 ? 50 : limit;
 
-    if (tags) {
-      tags = tags.split(' ').map((tag) => tag.replace('-', ' '));
-    }
-
-    const queryParams = tags
-      ? { query_city: city, tags: { $all: [...tags] } }
-      : { query_city: city };
+    const queryParams = generateQueryParams(city, tags);
 
     const [totalRows, jobs] = await Promise.all([
       Job.countDocuments(queryParams),

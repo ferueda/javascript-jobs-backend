@@ -1,33 +1,40 @@
 const generateQueryParams = (city, queries) => {
-  let queryParams = {
-    query_city: city,
-  };
+	let queryParams = {
+		query_city: city,
+	};
 
-  if (queries) {
-    const filtersRegex = /angular|react|front end|back end|javascript|vue|typescript|node/gi;
+	if (queries) {
+		const filtersRegex = /angular|react|front end|back end|javascript|vue|typescript|node/gi;
 
-    const tagsFilter = queries.match(filtersRegex);
+		const tagsFilter = queries.match(filtersRegex);
 
-    if (tagsFilter) {
-      queryParams = {
-        ...queryParams,
-        tags: { $all: [...tagsFilter] },
-      };
-    }
+		if (tagsFilter) {
+			queryParams = {
+				...queryParams,
+				tags: { $all: [...tagsFilter] },
+			};
+		}
 
-    const searchFilter = queries.replace(filtersRegex, '').trim();
+		const searchFilter = queries.replace(filtersRegex, '').trim();
 
-    if (searchFilter) {
-      queryParams = {
-        ...queryParams,
-        $text: { $search: searchFilter },
-      };
-    }
-  }
+		if (searchFilter) {
+			queryParams = {
+				...queryParams,
+				$text: { $search: searchFilter },
+			};
+		}
+	}
 
-  console.log(queryParams);
+	console.log(queryParams);
 
-  return queryParams;
+	return queryParams;
 };
 
-module.exports = { generateQueryParams };
+const getDateDiff = (d1, d2) => {
+	const utc1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+	const utc2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+
+	return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
+};
+
+module.exports = { generateQueryParams, getDateDiff };

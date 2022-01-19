@@ -1,6 +1,6 @@
 const jobsRouter = require('express').Router();
 const Job = require('../model/job');
-const { generateQueryParams, getDateDiff } = require('../utils/helpers');
+const { generateQueryParams } = require('../utils/helpers');
 
 jobsRouter.post('/', async (req, res, next) => {
   const job = new Job({
